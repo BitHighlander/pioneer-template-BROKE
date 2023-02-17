@@ -24,6 +24,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
+import PIONEER_ICON from "lib/assets/png/pioneer.png";
 import Context from "lib/context";
 
 import ThemeToggle from "./ThemeToggle";
@@ -104,7 +105,7 @@ const Header = () => {
           cursor="pointer"
           minW={0}
         >
-          <Avatar size="lg" src={KEEPKEY_ICON}>
+          <Avatar size="lg" src={PIONEER_ICON}>
             <AvatarBadge boxSize="1.25em" bg="green.500" />
           </Avatar>
         </MenuButton>
