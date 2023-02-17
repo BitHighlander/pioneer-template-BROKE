@@ -99,7 +99,7 @@ const Home = () => {
     onStart();
   }, []);
 
-  return <Grid gap={4} />;
+  return <Grid gap={4}>Homepage</Grid>;
 };
 
 export default Home;
