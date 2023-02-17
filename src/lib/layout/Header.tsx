@@ -1,34 +1,39 @@
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Flex,
   Avatar,
-  HStack,
-  Link,
-  IconButton,
+  AvatarBadge,
+  Box,
   Button,
+  Flex,
+  HStack,
+  IconButton,
+  Link,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   MenuDivider,
-  AvatarBadge,
-  useDisclosure,
-  Text,
+  MenuItem,
+  MenuList,
   Spacer,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 // import type { ReactNode } from "react";
 // import { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
+import Context from "lib/context";
 
 import ThemeToggle from "./ThemeToggle";
 
+// const Pioneer = new PioneerService();
+
 const Header = () => {
+  const user = useContext(Context);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   // const [keepkeyConnected, setKeepKeyConnected] = useState(false);
   // const [keepkeyError, setKeepKeyError] = useState(false);
   // const [features, setKeepKeyFeatures] = useState({});
@@ -39,8 +44,13 @@ const Header = () => {
 
   const onStart = async function () {
     try {
+      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // Pioneer.init();
+      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // // @ts-ignore
+      // setPioneer(Pioneer);
       // eslint-disable-next-line no-console
-      console.log("onStart");
+      console.log("onStart", user);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -51,7 +61,9 @@ const Header = () => {
   // onStart()
   useEffect(() => {
     onStart();
-  }, []); // once on startup
+  }, [user]); // once on startup
+
+  const { context, username, totalValueUsd } = user;
 
   return (
     <Flex
@@ -97,10 +109,10 @@ const Header = () => {
           </Avatar>
         </MenuButton>
         <MenuList>
-          <MenuItem>Link 1</MenuItem>
-          <MenuItem>Link 2</MenuItem>
+          <MenuItem>{username}</MenuItem>
+          <MenuItem>context: {context || "not Paired"}</MenuItem>
           <MenuDivider />
-          <MenuItem>Link 3</MenuItem>
+          <MenuItem>Total Vaule(usd): {totalValueUsd}</MenuItem>
           <MenuItem>Link 3</MenuItem>
         </MenuList>
       </Menu>
