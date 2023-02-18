@@ -26,7 +26,21 @@ import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
 import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as keplr from "@shapeshiftoss/hdwallet-keplr";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as metaMask from "@shapeshiftoss/hdwallet-metamask";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as tallyHo from "@shapeshiftoss/hdwallet-tallyho";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as xdefi from "@shapeshiftoss/hdwallet-xdefi";
 import { v4 as uuidv4 } from "uuid";
+
+import { KeepKeyIcon } from "lib/assets/Icons/KeepKeyIcon";
+import { KeplrIcon } from "lib/assets/Icons/KeplrIcon";
+import { MetaMaskIcon } from "lib/assets/Icons/MetaMaskIcon";
+import { TallyHoIcon } from "lib/assets/Icons/TallyHoIcon";
+import { XDEFIIcon } from "lib/assets/Icons/XDEFIIcon";
 
 export class PioneerService {
   public App: any;
@@ -88,6 +102,18 @@ export class PioneerService {
   public sendInvocation: string | undefined;
 
   private serviceKey: string | undefined;
+
+  public keyring: any;
+
+  public walletsAvailable: any[] | undefined;
+
+  private metaMaskAdapter: any;
+
+  private tallyHoAdapter: any;
+
+  private xdefiAdapter: any;
+
+  private keplrAdapter: any;
 
   constructor() {
     this.isBridgeOnline = false;
@@ -155,6 +181,7 @@ export class PioneerService {
       // eslint-disable-next-line no-console
       console.log(config.apiKey);
       const keyring = new core.Keyring();
+      this.keyring = keyring;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -187,6 +214,20 @@ export class PioneerService {
         "binance",
         "cosmos",
         "dogecoin",
+      ];
+
+      // init wallets
+      this.metaMaskAdapter = metaMask.MetaMaskAdapter.useKeyring(this.keyring);
+      this.tallyHoAdapter = tallyHo.TallyHoAdapter.useKeyring(this.keyring);
+      this.xdefiAdapter = xdefi.XDEFIAdapter.useKeyring(this.keyring);
+      this.keplrAdapter = keplr.KeplrAdapter.useKeyring(this.keyring);
+
+      this.walletsAvailable = [
+        { name: "keepkey", icon: KeepKeyIcon, paired: false },
+        { name: "metamask", icon: MetaMaskIcon, paired: false },
+        { name: "tallyho", icon: TallyHoIcon, paired: false },
+        { name: "xdefi", icon: XDEFIIcon, paired: false },
+        { name: "keplr", icon: KeplrIcon, paired: false },
       ];
 
       // add custom path
@@ -404,38 +445,16 @@ export class PioneerService {
   //     return true
   //   }
   //
-  //   async pairWallet(wallet: any): Promise<any> {
-  //     try{
-  //
-  //       const keyring = new core.Keyring();
-  //       const keepkeyAdapter = keepkeyWebUSB.WebUSBKeepKeyAdapter.useKeyring(keyring);
-  //       let wallet = await keepkeyAdapter.pairDevice(undefined /*tryDebugLink=*/ );
-  //
-  //       if(wallet){
-  //         let result = await this.App.init(wallet)
-  //         console.log("result: ",result)
-  //         this.status = this.App.markets
-  //         console.log("STATUS: ",this.status)
-  //         //
-  //         this.context = this.App.context
-  //         this.valueUsdContext = this.App.valueUsdContext
-  //         this.walletsIds = this.App.wallets
-  //         this.wallets = this.App.walletDescriptions
-  //         this.walletDescriptions = this.App.walletDescriptions
-  //         this.totalValueUsd = this.App.totalValueUsd
-  //         this.username = this.App.username
-  //         this.balances = this.App.balances
-  //         this.pubkeys = this.App.pubkeys
-  //
-  //         return this.App
-  //       } else {
-  //         console.log("no wallet found! : ")
-  //       }
-  //
-  //     }catch(e){
-  //       console.error(e)
-  //     }
-  //   }
+  async pairWallet(wallet: any): Promise<any> {
+    try {
+      // pair wallet
+      // eslint-disable-next-line no-console
+      console.log("pairWallet: ", wallet);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+  }
   //
   //   async setSendInvocation(invocation: string): Promise<any> {
   //     //console.log('sendToAsset: ', invocation)

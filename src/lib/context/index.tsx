@@ -6,5 +6,6 @@ const Context = createContext({
   totalValueUsd: 0,
   app: {} as any,
   api: {} as any,
+  walletsAvailable: [] as any,
 });
 export default Context;

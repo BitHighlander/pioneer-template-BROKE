@@ -26,21 +26,22 @@ const Home = () => {
       // eslint-disable-next-line no-console
       console.log("user: ", user.data);
 
-      // // login
-      // const { nonce } = user.data;
-      // const message = `I am signing my one-time nonce: ${nonce}`;
-      //
-      // console.log("wallet: ", wallet);
-      // // console.log("wallet: ",wallet.provider)
-      // // console.log("wallet: ",await wallet.provider.request('personal_sign'))
-      // // console.log("wallet: ",wallet.provider.request(message,address))
-      // // const signature = await wallet.provider.request('personal_sign',{message,address})
-      // // const signature = await wallet.sign(
-      // //     `I am signing my one-time nonce: ${nonce}`,
-      // //     address,
-      // //     '' // MetaMask will ignore the password argument here
-      // // );
-      // // console.log("signature: ",signature)
+      // login
+      const { nonce } = user.data;
+      const message = `I am signing my one-time nonce: ${nonce}`;
+
+      // eslint-disable-next-line no-console
+      console.log("wallet: ", wallet);
+      // console.log("wallet: ",wallet.provider)
+      // console.log("wallet: ",await wallet.provider.request('personal_sign'))
+      // console.log("wallet: ",wallet.provider.request(message,address))
+      // const signature = await wallet.provider.request('personal_sign',{message,address})
+      // const signature = await wallet.sign(
+      //     `I am signing my one-time nonce: ${nonce}`,
+      //     address,
+      //     '' // MetaMask will ignore the password argument here
+      // );
+      // console.log("signature: ",signature)
       //
       // console.log("message: ", message);
       // console.log("address: ", address);
