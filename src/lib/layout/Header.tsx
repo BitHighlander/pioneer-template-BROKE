@@ -23,7 +23,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
+// import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
 import PIONEER_ICON from "lib/assets/png/pioneer.png";
 import Context from "lib/context";
 
@@ -32,7 +32,8 @@ import ThemeToggle from "./ThemeToggle";
 // const Pioneer = new PioneerService();
 
 const Header = () => {
-  const { app, api, context, username, totalValueUsd } = useContext(Context);
+  const { app, api, context, username, totalValueUsd, walletsAvailable } =
+    useContext(Context);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [pioneerConnected, setPioneerConnected] = useState(false);
@@ -50,16 +51,26 @@ const Header = () => {
 
   const onStart = async function () {
     try {
-      const userInfo = await api.User();
-      // eslint-disable-next-line no-console
-      console.log("user: ", userInfo.data);
-      if(userInfo.data.username){
-        setPioneerConnected(true)
-        setUser(userInfo.data)
+      if (!pioneerConnected) {
+        const userInfo = await api.User();
+        // eslint-disable-next-line no-console
+        console.log("user: ", userInfo.data);
+        if (userInfo.data.username) {
+          setPioneerConnected(true);
+          setUser(userInfo.data);
+        }
       }
 
       // eslint-disable-next-line no-console
-      console.log("onStart: ", app, api, context, username, totalValueUsd);
+      console.log(
+        "onStart: ",
+        app,
+        api,
+        context,
+        username,
+        totalValueUsd,
+        walletsAvailable
+      );
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -74,6 +85,7 @@ const Header = () => {
     onStart();
   }, [context, username, totalValueUsd, app, api]); // once on startup
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return (
     <Flex
@@ -123,6 +135,17 @@ const Header = () => {
           </Avatar>
         </MenuButton>
         <MenuList>
+          <MenuItem>
+            {/* {walletsAvailable.map((wallet: any) => ( */}
+            {/*  <Avatar size="sm" src={wallet.icon}> */}
+            {/*    {wallet.paired ? ( */}
+            {/*      <AvatarBadge boxSize="1.25em" bg="green.500" /> */}
+            {/*    ) : ( */}
+            {/*      <AvatarBadge boxSize="1.25em" bg="red.500" /> */}
+            {/*    )} */}
+            {/*  </Avatar> */}
+            {/* ))} */}
+          </MenuItem>
           <MenuItem>{user.username}</MenuItem>
           <MenuItem>context: {user.context || "not Paired"}</MenuItem>
           <MenuDivider />
