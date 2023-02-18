@@ -29,7 +29,7 @@
     "@keepkey/hdwallet-keepkey-rest": "^1.40.15",
     "@keepkey/keepkey-sdk": "^0.2.26",
     "@pioneer-platform/pioneer-client": "8.1.30",
-    "@pioneer-sdk/sdk": "1.1.57",
+    "@pioneer-sdk/sdk": "1.1.58",
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-typescript": "^10.0.1",
     "@shapeshiftoss/hdwallet-core": "^1.42.0",

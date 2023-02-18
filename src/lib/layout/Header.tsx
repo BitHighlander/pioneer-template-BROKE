@@ -20,7 +20,7 @@ import {
 
 // import type { ReactNode } from "react";
 // import { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
@@ -32,10 +32,15 @@ import ThemeToggle from "./ThemeToggle";
 // const Pioneer = new PioneerService();
 
 const Header = () => {
-  const user = useContext(Context);
+  const { app, api, context, username, totalValueUsd } = useContext(Context);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const [keepkeyConnected, setKeepKeyConnected] = useState(false);
+  const [pioneerConnected, setPioneerConnected] = useState(false);
+  const [user, setUser] = useState({
+    username: undefined,
+    context: undefined,
+    totalValueUsd: undefined,
+  });
   // const [keepkeyError, setKeepKeyError] = useState(false);
   // const [features, setKeepKeyFeatures] = useState({});
 
@@ -45,27 +50,31 @@ const Header = () => {
 
   const onStart = async function () {
     try {
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // Pioneer.init();
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // @ts-ignore
-      // setPioneer(Pioneer);
+      const userInfo = await api.User();
       // eslint-disable-next-line no-console
-      console.log("onStart", user);
+      console.log("user: ", userInfo.data);
+      if(userInfo.data.username){
+        setPioneerConnected(true)
+        setUser(userInfo.data)
+      }
+
+      // eslint-disable-next-line no-console
+      console.log("onStart: ", app, api, context, username, totalValueUsd);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      setKeepKeyError("Bridge is offline!");
+      // eslint-disable-next-line no-console
+      console.error("header e: ", e);
+      // setKeepKeyError("Bridge is offline!");
     }
   };
 
   // onStart()
   useEffect(() => {
     onStart();
-  }, [user]); // once on startup
+  }, [context, username, totalValueUsd, app, api]); // once on startup
 
-  const { context, username, totalValueUsd } = user;
-
+  // @ts-ignore
   return (
     <Flex
       as="header"
@@ -106,15 +115,18 @@ const Header = () => {
           minW={0}
         >
           <Avatar size="lg" src={PIONEER_ICON}>
-            <AvatarBadge boxSize="1.25em" bg="green.500" />
+            {pioneerConnected ? (
+              <AvatarBadge boxSize="1.25em" bg="green.500" />
+            ) : (
+              <AvatarBadge boxSize="1.25em" bg="red.500" />
+            )}
           </Avatar>
         </MenuButton>
         <MenuList>
-          <MenuItem>{username}</MenuItem>
-          <MenuItem>context: {context || "not Paired"}</MenuItem>
+          <MenuItem>{user.username}</MenuItem>
+          <MenuItem>context: {user.context || "not Paired"}</MenuItem>
           <MenuDivider />
-          <MenuItem>Total Vaule(usd): {totalValueUsd}</MenuItem>
-          <MenuItem>Link 3</MenuItem>
+          <MenuItem>Total Value(usd): {user.totalValueUsd}</MenuItem>
         </MenuList>
       </Menu>
     </Flex>

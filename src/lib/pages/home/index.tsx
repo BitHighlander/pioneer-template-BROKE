@@ -3,91 +3,84 @@ import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
 import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
-import { useState, useEffect } from "react";
+import { useConnectWallet } from "@web3-onboard/react";
+import {useState, useEffect, useContext} from "react";
 import { v4 as uuidv4 } from "uuid";
+import Context from "lib/context";
 
 const Home = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [wallet, setWallet] = useState({});
-  const [app, setApp] = useState({});
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+  const { app, api, context, username, totalValueUsd } = useContext(Context);
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [wallet, setWallet] = useState({});
+  // const [app, setApp] = useState({});
+
+  const onLogin = async function () {
+    try {
+      const address = wallet?.accounts[0]?.address;
+      // eslint-disable-next-line no-console
+      console.log("address: ", address);
+
+      // is address logged in?
+      const user = await api.GetUser({ publicAddress: address });
+      // eslint-disable-next-line no-console
+      console.log("user: ", user.data);
+
+      // // login
+      // const { nonce } = user.data;
+      // const message = `I am signing my one-time nonce: ${nonce}`;
+      //
+      // console.log("wallet: ", wallet);
+      // // console.log("wallet: ",wallet.provider)
+      // // console.log("wallet: ",await wallet.provider.request('personal_sign'))
+      // // console.log("wallet: ",wallet.provider.request(message,address))
+      // // const signature = await wallet.provider.request('personal_sign',{message,address})
+      // // const signature = await wallet.sign(
+      // //     `I am signing my one-time nonce: ${nonce}`,
+      // //     address,
+      // //     '' // MetaMask will ignore the password argument here
+      // // );
+      // // console.log("signature: ",signature)
+      //
+      // console.log("message: ", message);
+      // console.log("address: ", address);
+      //
+      // // const ethersWallet = new ethers.Wallet(wallet.provider)
+      // if (!wallet || !wallet.provider) throw Error("Onbord not setup!");
+      // const ethersProvider = new ethers.providers.Web3Provider(
+      //   wallet.provider,
+      //   "any"
+      // );
+      // const signer = ethersProvider.getSigner();
+      // const signature = await signer.signMessage(message);
+      // console.log("signature: ", signature);
+      // console.log("address: ", address);
+      // console.log("message: ", message);
+      //
+      // // signin get api key
+      // const loginResp = await pioneer.Login(
+      //   {},
+      //   { publicAddress: address, signature, message }
+      // );
+      // console.log("loginResp: ", loginResp.data);
+
+      // store api key in localstoarage
+
+      return true;
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    if (wallet?.accounts && wallet?.accounts[0]?.address) {
+      onLogin();
+    }
+  }, [wallet, wallet?.provider, api]);
 
   const onStart = async function () {
     try {
-      // const serviceKey = "135085f0-5c73-4bb1-abf0-04ddfc710b07";
-      // const config: any = {
-      //   apiKey: serviceKey,
-      //   pairingInfo: {
-      //     name: "ShapeShift",
-      //     imageUrl: "https://assets.coincap.io/assets/icons/fox@2x.png",
-      //     basePath: "http://localhost:1646/spec/swagger.json",
-      //     url: "https://pioneer-template.vercel.com",
-      //   },
-      // };
-      // const sdk = await KeepKeySdk.create(config);
-      // // eslint-disable-next-line no-console
-      // console.log(config.apiKey);
-      // const keyring = new core.Keyring();
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // @ts-ignore
-      // // eslint-disable-next-line react-hooks/rules-of-hooks
-      // const walletInit = await KkRestAdapter.useKeyring(keyring).pairDevice(
-      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //   // @ts-ignore
-      //   sdk
-      // );
-      // setWallet(walletInit);
-      // // eslint-disable-next-line no-console
-      // console.log("wallet: ", walletInit);
-      //
-      // let queryKey = localStorage.getItem("queryKey");
-      // let username = localStorage.getItem("username");
-      // if (!queryKey) {
-      //   queryKey = `key:${uuidv4()}`;
-      //   localStorage.setItem("queryKey", queryKey);
-      // }
-      // if (!username) {
-      //   username = `user:${uuidv4()}`;
-      //   username = username.substring(0, 13);
-      //   localStorage.setItem("username", username);
-      // }
-      //
-      // const blockchains = [
-      //   "bitcoin",
-      //   "ethereum",
-      //   "thorchain",
-      //   "bitcoincash",
-      //   "litecoin",
-      //   "binance",
-      //   "cosmos",
-      //   "dogecoin",
-      // ];
-      //
-      // // add custom path
-      // const paths: any = [];
-      // // const spec = "https://pioneers.dev/spec/swagger.json";
-      // // const wss = "wss://pioneers.dev";
-      // const spec = "http://127.0.0.1:9001/spec/swagger.json";
-      // const wss = "ws://127.0.0.1:9001";
-      // const configPioneer: any = {
-      //   blockchains,
-      //   username,
-      //   queryKey,
-      //   spec,
-      //   wss,
-      //   paths,
-      // };
-      // const appInit = new SDK(spec, configPioneer);
-      // setApp(appInit);
-      //
-      // // init with HDwallet
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // @ts-ignore
-      // const result = await appInit.init(walletInit);
-      // // eslint-disable-next-line no-console
-      // console.log("result: ", result);
-      //
-      // // eslint-disable-next-line no-console
-      // console.log("app: ", appInit);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

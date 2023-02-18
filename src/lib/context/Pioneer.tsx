@@ -208,48 +208,48 @@ export class PioneerService {
       // init with HDwallet
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const result = await appInit.init(walletInit);
+      this.api = await appInit.init(walletInit);
       // eslint-disable-next-line no-console
-      console.log("result: ********", result);
+
       // this.App = appInit;
       // this.Api = appInit.pioneer;
       // this.App.on('keepkey',(message) => {
       //   this.events.events.emit('keepkey',message)
       // })
 
-      // init with HDwallet
-      if (result) {
-        // eslint-disable-next-line no-console
-        console.log("Setting state: ", result.context);
-        // this.status = result.markets;
-        // // eslint-disable-next-line no-console
-        // console.log("STATUS: ", this.status);
-        this.context = result.context;
-        this.valueUsdContext = result.valueUsdContext;
-        this.walletsIds = result.wallets;
-        this.wallets = result.walletDescriptions;
-        this.walletDescriptions = result.walletDescriptions;
-        this.totalValueUsd = result.totalValueUsd;
-        this.username = result.username;
-        this.balances = result.balances;
-        this.pubkeys = result.pubkeys;
-      }
-      return {
-        status: "Online",
-        code: this.pairingCode,
-        paired: true,
-        assetContext: this.assetContext,
-        assetBalanceNativeContext: this.assetBalanceNativeContext,
-        assetBalanceUsdValueContext: this.assetBalanceUsdValueContext,
-        username: this.username,
-        context: this.context,
-        wallets: this.wallets,
-        balances: this.balances,
-        pubkeys: this.pubkeys,
-        walletsIds: this.walletsIds,
-        valueUsdContext: this.valueUsdContext,
-        totalValueUsd: this.totalValueUsd,
-      };
+      // // init with HDwallet
+      // if (result) {
+      //   // eslint-disable-next-line no-console
+      //   console.log("Setting state: ", result.context);
+      //   // this.status = result.markets;
+      //   // // eslint-disable-next-line no-console
+      //   // console.log("STATUS: ", this.status);
+      //   this.context = result.context;
+      //   this.valueUsdContext = result.valueUsdContext;
+      //   this.walletsIds = result.wallets;
+      //   this.wallets = result.walletDescriptions;
+      //   this.walletDescriptions = result.walletDescriptions;
+      //   this.totalValueUsd = result.totalValueUsd;
+      //   this.username = result.username;
+      //   this.balances = result.balances;
+      //   this.pubkeys = result.pubkeys;
+      // }
+      // return {
+      //   status: "Online",
+      //   code: this.pairingCode,
+      //   paired: true,
+      //   assetContext: this.assetContext,
+      //   assetBalanceNativeContext: this.assetBalanceNativeContext,
+      //   assetBalanceUsdValueContext: this.assetBalanceUsdValueContext,
+      //   username: this.username,
+      //   context: this.context,
+      //   wallets: this.wallets,
+      //   balances: this.balances,
+      //   pubkeys: this.pubkeys,
+      //   walletsIds: this.walletsIds,
+      //   valueUsdContext: this.valueUsdContext,
+      //   totalValueUsd: this.totalValueUsd,
+      // };
 
       // if(status && status.username){
       //   console.log("bridge ONLINE!!!!: ")
