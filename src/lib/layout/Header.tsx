@@ -23,24 +23,28 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
+// import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
 import PIONEER_ICON from "lib/assets/png/pioneer.png";
-import Context from "lib/context";
+// import Context from "lib/context";
+import { usePioneer } from "lib/context/Pioneer";
 
 import ThemeToggle from "./ThemeToggle";
 
 // const Pioneer = new PioneerService();
 
 const Header = () => {
-  const { app, api, context, username, totalValueUsd } = useContext(Context);
+  const { state } = usePioneer();
+  const { api, user } = state;
+  const { wallets, walletDescriptions, balances, pubkeys } = user;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [pioneerConnected, setPioneerConnected] = useState(false);
 
-  const [pioneerConnected, setPioneerConnected] = useState(false);
-  const [user, setUser] = useState({
-    username: undefined,
-    context: undefined,
-    totalValueUsd: undefined,
-  });
+  // const [user, setUser] = useState({
+  //   username: undefined,
+  //   context: undefined,
+  //   totalValueUsd: undefined,
+  // });
+
   // const [keepkeyError, setKeepKeyError] = useState(false);
   // const [features, setKeepKeyFeatures] = useState({});
 
@@ -50,16 +54,6 @@ const Header = () => {
 
   const onStart = async function () {
     try {
-      const userInfo = await api.User();
-      // eslint-disable-next-line no-console
-      console.log("user: ", userInfo.data);
-      if(userInfo.data.username){
-        setPioneerConnected(true)
-        setUser(userInfo.data)
-      }
-
-      // eslint-disable-next-line no-console
-      console.log("onStart: ", app, api, context, username, totalValueUsd);
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -72,8 +66,9 @@ const Header = () => {
   // onStart()
   useEffect(() => {
     onStart();
-  }, [context, username, totalValueUsd, app, api]); // once on startup
+  }, [state, state.api]); // once on startup
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return (
     <Flex
@@ -115,7 +110,7 @@ const Header = () => {
           minW={0}
         >
           <Avatar size="lg" src={PIONEER_ICON}>
-            {pioneerConnected ? (
+            {api ? (
               <AvatarBadge boxSize="1.25em" bg="green.500" />
             ) : (
               <AvatarBadge boxSize="1.25em" bg="red.500" />
@@ -123,10 +118,10 @@ const Header = () => {
           </Avatar>
         </MenuButton>
         <MenuList>
-          <MenuItem>{user.username}</MenuItem>
-          <MenuItem>context: {user.context || "not Paired"}</MenuItem>
-          <MenuDivider />
-          <MenuItem>Total Value(usd): {user.totalValueUsd}</MenuItem>
+          <MenuItem>{state.username}</MenuItem>
+          {/* <MenuItem>context: {user.context || "not Paired"}</MenuItem> */}
+          {/* <MenuDivider /> */}
+          {/* <MenuItem>Total Value(usd): {user.totalValueUsd}</MenuItem> */}
         </MenuList>
       </Menu>
     </Flex>
