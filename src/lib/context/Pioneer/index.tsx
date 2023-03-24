@@ -25,10 +25,12 @@
 // import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 // import { SDK } from "@pioneer-sdk/sdk";
 // import * as core from "@shapeshiftoss/hdwallet-core";
-import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
+// import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
 import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
+// import * as keplr from "@shapeshiftoss/hdwallet-keplr";
+import * as metaMask from "@shapeshiftoss/hdwallet-metamask";
 import {
   createContext,
   useReducer,
@@ -39,6 +41,8 @@ import {
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 // import { v4 as uuidv4 } from "uuid";
+// metmask
+// keplr
 
 // import { Keyring } from "@shapeshiftoss/hdwallet-core";
 
@@ -144,6 +148,10 @@ export const PioneerProvider = ({
   // const [username, setUsername] = useState<string | null>(null);
   // const [context, setContext] = useState<string | null>(null);
 
+  // connect KeepKey
+
+  // connect metamask
+
   const onStart = async function () {
     try {
       // eslint-disable-next-line no-console
@@ -167,7 +175,7 @@ export const PioneerProvider = ({
           url: "https://pioneer-template.vercel.com",
         },
       };
-      const sdk = await KeepKeySdk.create(config);
+      // const sdk = await KeepKeySdk.create(config);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (!config.apiKey !== serviceKey) {
@@ -176,14 +184,19 @@ export const PioneerProvider = ({
         localStorage.setItem("serviceKey", config.apiKey);
       }
       const keyring = new core.Keyring();
+      // MM
+      const metaMaskAdapter = metaMask.MetaMaskAdapter.useKeyring(keyring);
+      const walletInit = await metaMaskAdapter.pairDevice();
+      // eslint-disable-next-line no-console
+      console.log("walletInit: ", walletInit);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const walletInit = await KkRestAdapter.useKeyring(keyring).pairDevice(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        sdk
-      );
+      // const walletInit = await KkRestAdapter.useKeyring(keyring).pairDevice(
+      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //   // @ts-ignore
+      //   sdk
+      // );
       if (!queryKey) {
         queryKey = `key:${uuidv4()}`;
         localStorage.setItem("queryKey", queryKey);
