@@ -196,8 +196,8 @@ const Header = () => {
           </Avatar>
         </MenuButton>
         <MenuList>
-          <MenuItem>{state.username}</MenuItem>
-          <MenuDivider />
+          {/*<MenuItem>{state.username}</MenuItem>*/}
+          {/*<MenuDivider />*/}
           <MenuItem>
             {walletDescriptions.map((wallet: any) => (
               <div>
@@ -209,32 +209,32 @@ const Header = () => {
                     <AvatarBadge boxSize="1.25em" bg="red.500" />
                   )}
                 </Avatar>
-                <small>value: {wallet.valueUsdContext}</small>
+                <small>type:{wallet.type} value: {wallet.valueUsdContext}</small>
               </div>
             ))}
           </MenuItem>
           <MenuDivider />
           <Accordion defaultIndex={[0]} allowMultiple>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    Balances {balances.length}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                {balances.map((balance: any) => (
-                  <div>
-                    <Avatar size="sm" src={balance.image}>
-                    </Avatar>
-                    <small>symbol: {balance.symbol}</small>
-                    <small>balance: {balance.balance}</small>
-                  </div>
-                ))}
-              </AccordionPanel>
-            </AccordionItem>
+          {/*  <AccordionItem>*/}
+          {/*    <h2>*/}
+          {/*      <AccordionButton>*/}
+          {/*        <Box as="span" flex="1" textAlign="left">*/}
+          {/*          Balances {balances.length}*/}
+          {/*        </Box>*/}
+          {/*        <AccordionIcon />*/}
+          {/*      </AccordionButton>*/}
+          {/*    </h2>*/}
+          {/*    <AccordionPanel pb={4}>*/}
+          {/*      {balances.map((balance: any) => (*/}
+          {/*        <div>*/}
+          {/*          <Avatar size="sm" src={balance.image}>*/}
+          {/*          </Avatar>*/}
+          {/*          <small>symbol: {balance.symbol}</small>*/}
+          {/*          <small>balance: {balance.balance}</small>*/}
+          {/*        </div>*/}
+          {/*      ))}*/}
+          {/*    </AccordionPanel>*/}
+          {/*  </AccordionItem>*/}
           </Accordion>
           {/* <MenuItem>context: {user.context || "not Paired"}</MenuItem> */}
           {/* <MenuDivider /> */}
