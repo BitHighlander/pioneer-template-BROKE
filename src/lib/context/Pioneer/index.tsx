@@ -26,13 +26,13 @@
 // import { SDK } from "@pioneer-sdk/sdk";
 // import * as core from "@shapeshiftoss/hdwallet-core";
 // import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
-// import { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
 // import * as keplr from "@shapeshiftoss/hdwallet-keplr";
 import * as metaMask from "@shapeshiftoss/hdwallet-metamask";
-import { NativeAdapter } from "@shapeshiftoss/hdwallet-native";
-import { entropyToMnemonic } from "bip39";
+// import { NativeAdapter } from "@shapeshiftoss/hdwallet-native";
+// import { entropyToMnemonic } from "bip39";
 import {
   createContext,
   useReducer,
@@ -179,7 +179,7 @@ export const PioneerProvider = ({
           url: "https://pioneer-template.vercel.com",
         },
       };
-      // const sdkKeepKey = await KeepKeySdk.create(config);
+      const sdkKeepKey = await KeepKeySdk.create(config);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (!config.apiKey !== serviceKey) {
@@ -191,7 +191,7 @@ export const PioneerProvider = ({
       // MM
       const metaMaskAdapter = metaMask.MetaMaskAdapter.useKeyring(keyring);
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const nativeAdapter = NativeAdapter.useKeyring(keyring);
+      // const nativeAdapter = NativeAdapter.useKeyring(keyring);
 
       const walletMetaMask = await metaMaskAdapter.pairDevice();
       if (walletMetaMask) {
@@ -210,43 +210,43 @@ export const PioneerProvider = ({
           accountIdx: 0,
         })[0];
 
-        let hashStored = localStorage.getItem("hash");
-        if (!hashStored) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          let sig = await walletMetaMask.ethSignMessage({
-            addressNList: hardenedPath.concat(relPath),
-            message,
-          });
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          if (sig.signature) sig = sig.signature;
-          // eslint-disable-next-line no-console
-          console.log("sig: ", sig);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          localStorage.setItem("hash", sig);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          hashStored = sig;
-        }
-
-        const hashSplice = (str: string | any[] | null) => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          return str.slice(0, 34);
-        };
-        const hash = hashSplice(hashStored);
+        // let hashStored = localStorage.getItem("hash");
+        // if (!hashStored) {
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   let sig = await walletMetaMask.ethSignMessage({
+        //     addressNList: hardenedPath.concat(relPath),
+        //     message,
+        //   });
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   if (sig.signature) sig = sig.signature;
+        //   // eslint-disable-next-line no-console
+        //   console.log("sig: ", sig);
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   localStorage.setItem("hash", sig);
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   hashStored = sig;
+        // }
+        //
+        // const hashSplice = (str: string | any[] | null) => {
+        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //   // @ts-ignore
+        //   return str.slice(0, 34);
+        // };
+        // const hash = hashSplice(hashStored);
 
         // eslint-disable-next-line no-console
-        console.log("hash (trimmed): ", hash);
+        // console.log("hash (trimmed): ", hash);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const hashBytes = hash.replace("0x", "");
-        // eslint-disable-next-line no-console
-        console.log("hashBytes", hashBytes);
-        // eslint-disable-next-line no-console
-        console.log("hashBytes", hashBytes.length);
+        // const hashBytes = hash.replace("0x", "");
+        // // eslint-disable-next-line no-console
+        // console.log("hashBytes", hashBytes);
+        // // eslint-disable-next-line no-console
+        // console.log("hashBytes", hashBytes.length);
         // const mnemonic = entropyToMnemonic(hashBytes.toString(`hex`));
         // // eslint-disable-next-line no-console
         // console.log("mnemonic", mnemonic);
@@ -316,19 +316,19 @@ export const PioneerProvider = ({
         // // @ts-ignore
         // walletSoftware.loadDevice({ mnemonic });
         //
-        // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // // @ts-ignore
-        // // eslint-disable-next-line react-hooks/rules-of-hooks
-        // const walletKeepKey = await KkRestAdapter.useKeyring(
-        //   keyring
-        // ).pairDevice(sdkKeepKey);
-        // // eslint-disable-next-line no-console
-        // console.log("walletKeepKey: ", walletKeepKey);
-        //
-        // // pair keepkey
-        // const successKeepKey = await appInit.pairWallet(walletKeepKey);
-        // // eslint-disable-next-line no-console
-        // console.log("successKeepKey: ", successKeepKey);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const walletKeepKey = await KkRestAdapter.useKeyring(
+          keyring
+        ).pairDevice(sdkKeepKey);
+        // eslint-disable-next-line no-console
+        console.log("walletKeepKey: ", walletKeepKey);
+
+        // pair keepkey
+        const successKeepKey = await appInit.pairWallet(walletKeepKey);
+        // eslint-disable-next-line no-console
+        console.log("successKeepKey: ", successKeepKey);
         //
         // const successSoftware = await appInit.pairWallet(walletKeepKey);
         // // eslint-disable-next-line no-console

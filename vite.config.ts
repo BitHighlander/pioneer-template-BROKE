@@ -51,10 +51,7 @@ export default defineConfig(({}) => {
         vm: 'rollup-plugin-node-polyfills/polyfills/vm',
         zlib: 'rollup-plugin-node-polyfills/polyfills/zlib',
         tty: 'rollup-plugin-node-polyfills/polyfills/tty',
-        domain: 'rollup-plugin-node-polyfills/polyfills/domain',
-        process: 'rollup-plugin-node-polyfills/polyfills/process-es6',
-        crypto: 'crypto-browserify',
-        'tiny-secp256k1': 'tiny-secp256k1'
+        domain: 'rollup-plugin-node-polyfills/polyfills/domain'
       },
     },
     optimizeDeps: {
@@ -68,7 +65,7 @@ export default defineConfig(({}) => {
           NodeGlobalsPolyfillPlugin({
             crypto: true,
             process: true,
-            buffer: false
+            buffer: true
           }),
           NodeModulesPolyfillPlugin()
         ],
@@ -86,7 +83,7 @@ export default defineConfig(({}) => {
           NodeGlobalsPolyfillPlugin({
             crypto: true,
             process: true,
-            buffer: false
+            buffer: true
           }),
           rollupNodePolyFill()
         ],
