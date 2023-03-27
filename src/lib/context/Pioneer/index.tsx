@@ -190,7 +190,7 @@ export const PioneerProvider = ({
       const keyring = new core.Keyring();
       // MM
       const metaMaskAdapter = metaMask.MetaMaskAdapter.useKeyring(keyring);
-      // // eslint-disable-next-line react-hooks/rules-of-hooks
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       // const nativeAdapter = NativeAdapter.useKeyring(keyring);
 
       const walletMetaMask = await metaMaskAdapter.pairDevice();

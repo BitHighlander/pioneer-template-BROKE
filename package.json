@@ -35,6 +35,7 @@
     "@shapeshiftoss/hdwallet-core": "^1.42.0",
     "@shapeshiftoss/hdwallet-keplr": "^1.46.0",
     "@shapeshiftoss/hdwallet-metamask": "^1.46.0",
+    "@shapeshiftoss/hdwallet-native": "^1.46.0",
     "@tanstack/react-table": "^8.7.4",
     "@types/react-alert": "^7.0.2",
     "@web3-onboard/injected-wallets": "latest",
