@@ -63,7 +63,6 @@ export default defineConfig(({}) => {
         // Enable esbuild polyfill plugins
         plugins: [
           NodeGlobalsPolyfillPlugin({
-            crypto: true,
             process: true,
             buffer: true
           }),
@@ -81,7 +80,6 @@ export default defineConfig(({}) => {
         plugins: [
           inject({ Buffer: ['Buffer','Buffer'], process: ['process'] }),
           NodeGlobalsPolyfillPlugin({
-            crypto: true,
             process: true,
             buffer: true
           }),
