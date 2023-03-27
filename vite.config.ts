@@ -4,6 +4,8 @@ import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import inject from '@rollup/plugin-inject'
+import wasm from 'vite-plugin-wasm'
 
 // @ts-ignore
 export default defineConfig(({}) => {
@@ -14,8 +16,9 @@ export default defineConfig(({}) => {
     // vite config
     define: {
       'process.env': {},
+      global: {},
     },
-    plugins: [react()],
+    plugins: [react(),wasm()],
     resolve: {
       alias: {
         lib: resolve(__dirname, "src/lib"),
@@ -50,6 +53,8 @@ export default defineConfig(({}) => {
         tty: 'rollup-plugin-node-polyfills/polyfills/tty',
         domain: 'rollup-plugin-node-polyfills/polyfills/domain',
         process: 'rollup-plugin-node-polyfills/polyfills/process-es6',
+        crypto: 'crypto-browserify',
+        'tiny-secp256k1': 'tiny-secp256k1'
       },
     },
     optimizeDeps: {
@@ -61,7 +66,9 @@ export default defineConfig(({}) => {
         // Enable esbuild polyfill plugins
         plugins: [
           NodeGlobalsPolyfillPlugin({
-            process: true
+            crypto: true,
+            process: true,
+            buffer: false
           }),
           NodeModulesPolyfillPlugin()
         ],
@@ -75,8 +82,11 @@ export default defineConfig(({}) => {
           ""
         ],
         plugins: [
+          inject({ Buffer: ['Buffer','Buffer'], process: ['process'] }),
           NodeGlobalsPolyfillPlugin({
-            process: true
+            crypto: true,
+            process: true,
+            buffer: false
           }),
           rollupNodePolyFill()
         ],

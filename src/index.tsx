@@ -2,6 +2,12 @@ import { ColorModeScript } from "@chakra-ui/react";
 import * as React from "react";
 import ReactDOM from "react-dom/client";
 
+
+// import * as Buffer from 'buffer';
+// globalThis.Buffer = Buffer.default || Buffer;
+// import * as buffer from 'buffer';
+// globalThis.Buffer = buffer.Buffer;
+
 // fonts
 import "@fontsource/plus-jakarta-sans/latin.css";
 
