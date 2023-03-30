@@ -25,7 +25,7 @@
 // import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 // import { SDK } from "@pioneer-sdk/sdk";
 // import * as core from "@shapeshiftoss/hdwallet-core";
-// import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
+import { KkRestAdapter } from "@keepkey/hdwallet-keepkey-rest";
 import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
@@ -39,7 +39,7 @@ import {
   useContext,
   useMemo,
   useEffect,
-  // useState,
+  useState,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 // import { v4 as uuidv4 } from "uuid";
@@ -52,6 +52,9 @@ export enum WalletActions {
   SET_STATUS = "SET_STATUS",
   SET_USERNAME = "SET_USERNAME",
   SET_USER = "SET_WALLETS",
+  SET_CONTEXT = "SET_CONTEXT",
+  SET_BLOCKCHAIN = "SET_BLOCKCHAIN",
+  SET_ASSET = "SET_ASSET",
   // SET_WALLETS = "SET_WALLETS",
   // SET_WALLET_DESCRIPTIONS = "SET_WALLET_DESCRIPTIONS",
   // INIT_PIONEER = "INIT_PIONEER",
@@ -109,6 +112,7 @@ export type ActionTypes =
   | { type: WalletActions.SET_USERNAME; payload: string }
   | { type: WalletActions.SET_API; payload: any }
   | { type: WalletActions.SET_USER; payload: any }
+  | { type: WalletActions.SET_CONTEXT; payload: any }
   // | { type: WalletActions.SET_WALLET_DESCRIPTIONS; payload: any }
   // | { type: WalletActions.INIT_PIONEER; payload: boolean }
   | { type: WalletActions.RESET_STATE };
@@ -117,6 +121,8 @@ const reducer = (state: InitialState, action: ActionTypes) => {
   switch (action.type) {
     case WalletActions.SET_STATUS:
       return { ...state, status: action.payload };
+    case WalletActions.SET_CONTEXT:
+      return { ...state, context: action.payload };
     case WalletActions.SET_USERNAME:
       return { ...state, username: action.payload };
     case WalletActions.SET_API:
@@ -150,7 +156,11 @@ export const PioneerProvider = ({
   // const [username, setUsername] = useState<string | null>(null);
   // const [context, setContext] = useState<string | null>(null);
   // const [wallets, setSetWallets] = useState([]);
-  // const [context, setContext] = useState<string | null>(null);
+  const [context, setContext] = useState<string | null>(null);
+  const [blockchainContext, setBlockchainContext] = useState<string | null>(
+    null
+  );
+  const [assetContext, setAssetContext] = useState<string | null>(null);
 
   // connect KeepKey
 
@@ -203,12 +213,12 @@ export const PioneerProvider = ({
         console.log("walletMetaMask: ", walletMetaMask);
 
         // use metamask to sign message
-        const message = "Pioneers:0xD9B4BEF9:gen1";
-
-        const { hardenedPath, relPath } = walletMetaMask.ethGetAccountPaths({
-          coin: "Ethereum",
-          accountIdx: 0,
-        })[0];
+        // const message = "Pioneers:0xD9B4BEF9:gen1";
+        //
+        // const { hardenedPath, relPath } = walletMetaMask.ethGetAccountPaths({
+        //   coin: "Ethereum",
+        //   accountIdx: 0,
+        // })[0];
 
         // let hashStored = localStorage.getItem("hash");
         // if (!hashStored) {
@@ -259,6 +269,7 @@ export const PioneerProvider = ({
         //   // @ts-ignore
         //   sdk
         // );
+
         if (!queryKey) {
           queryKey = `key:${uuidv4()}`;
           localStorage.setItem("queryKey", queryKey);
@@ -307,8 +318,12 @@ export const PioneerProvider = ({
         dispatch({ type: WalletActions.SET_USER, payload: user.data });
         // setUsername(localStorage.getItem("username"));
         // eslint-disable-next-line no-console
-        console.log("user: ", user);
-
+        console.log("user: ", user.data);
+        // eslint-disable-next-line no-console
+        console.log("user.data.context: ", user.data.context);
+        setContext(user.data.context);
+        setBlockchainContext(user.data.blockchainContext);
+        setAssetContext(user.data.assetContext);
         // // get walletSoftware
         // const walletSoftware = await nativeAdapter.pairDevice("testid");
         // await nativeAdapter.initialize();

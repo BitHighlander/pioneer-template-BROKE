@@ -1,4 +1,5 @@
 import { Flex, Link, Text } from "@chakra-ui/react";
+import ThemeToggle from "./ThemeToggle";
 
 const Footer = () => {
   return (
@@ -15,6 +16,7 @@ const Footer = () => {
           pioneers.dev
         </Link>
       </Text>
+      <ThemeToggle />
     </Flex>
   );
 };
