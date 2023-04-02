@@ -10,7 +10,6 @@ import { theme } from "lib/styles/theme";
 // const user = new PioneerService();
 // user.init();
 
-
 const App = () => (
   <ChakraProvider theme={theme}>
     <PioneerProvider>
