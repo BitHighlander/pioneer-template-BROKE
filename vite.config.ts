@@ -4,8 +4,8 @@ import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
-import inject from '@rollup/plugin-inject'
-import wasm from 'vite-plugin-wasm'
+// import inject from '@rollup/plugin-inject'
+// import wasm from 'vite-plugin-wasm'
 
 // @ts-ignore
 export default defineConfig(({}) => {
@@ -18,7 +18,7 @@ export default defineConfig(({}) => {
       'process.env': {},
       global: {},
     },
-    plugins: [react(),wasm()],
+    plugins: [react()],
     resolve: {
       alias: {
         lib: resolve(__dirname, "src/lib"),
@@ -78,7 +78,7 @@ export default defineConfig(({}) => {
           ""
         ],
         plugins: [
-          inject({ Buffer: ['Buffer','Buffer'], process: ['process'] }),
+          // inject({ Buffer: ['Buffer','Buffer'], process: ['process'] }),
           NodeGlobalsPolyfillPlugin({
             process: true,
             buffer: true

@@ -48,7 +48,7 @@ import { XDEFIIcon } from "lib/assets/Icons/XDEFIIcon";
 
 // import type { ReactNode } from "react";
 // import { KeepKeySdk } from "@keepkey/keepkey-sdk";
-
+import { useConnectWallet } from "@web3-onboard/react";
 import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
 import METAMASK_ICON from "lib/assets/png/metamask.png";
 import PIONEER_ICON from "lib/assets/png/pioneer.png";
@@ -58,6 +58,7 @@ import { usePioneer } from "lib/context/Pioneer";
 // const Pioneer = new PioneerService();
 
 const Header = () => {
+  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const { state } = usePioneer();
   const { api, user, context } = state;
 
@@ -130,6 +131,11 @@ const Header = () => {
 
   const onStart = async function () {
     try {
+      // if(!wallet)
+      //   await connect();
+      
+      // eslint-disable-next-line no-console
+      
     } catch (e) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
