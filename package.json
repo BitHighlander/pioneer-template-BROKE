@@ -29,9 +29,6 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@fontsource/plus-jakarta-sans": "^4.5.11",
     "@pioneer-sdk/sdk": "1.1.73",
-    "@web3-onboard/injected-wallets": "latest",
-    "@web3-onboard/react": "^2.5.1",
-    "@web3-onboard/walletconnect": "^2.2.2",
     "buffer": "^6.0.3",
     "framer-motion": "^8.5.5",
     "node-polyglot": "^2.5.0",
@@ -41,6 +38,7 @@
     "react-icons": "^4.8.0",
     "react-polyglot": "^0.7.2",
     "react-router-dom": "^6.9.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "short-uuid": "^4.2.2"
   },
   "devDependencies": {

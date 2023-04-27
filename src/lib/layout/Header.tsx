@@ -48,7 +48,6 @@ import { XDEFIIcon } from "lib/assets/Icons/XDEFIIcon";
 
 // import type { ReactNode } from "react";
 // import { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import { useConnectWallet } from "@web3-onboard/react";
 import KEEPKEY_ICON from "lib/assets/png/keepkey.png";
 import METAMASK_ICON from "lib/assets/png/metamask.png";
 import PIONEER_ICON from "lib/assets/png/pioneer.png";
@@ -58,7 +57,6 @@ import { usePioneer } from "lib/context/Pioneer";
 // const Pioneer = new PioneerService();
 
 const Header = () => {
-  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const { state } = usePioneer();
   const { api, user, context } = state;
 
@@ -239,7 +237,7 @@ const Header = () => {
       gridGap={2}
       alignItems="center"
     >
-      <Modal isOpenBlockchain={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Blockchain Select</ModalHeader>
@@ -343,38 +341,38 @@ const Header = () => {
           {/* <MenuDivider /> */}
           <MenuItem>
             <SimpleGrid columns={3} rows={1}>
-              <Card align="center" onClick={() => setContextWallet("native")}>
-                <CardBody>
-                  <Avatar src={PIONEER_ICON}>
-                    {nativePaired ? (
-                      <div>
-                        <AvatarBadge boxSize="1.25em" bg="green.500" />
-                      </div>
-                    ) : (
-                      <div>
-                        <AvatarBadge boxSize="1.25em" bg="red.500" />
-                      </div>
-                    )}
-                  </Avatar>
-                </CardBody>
-                <small>Pioneer</small>
-              </Card>
-              <Card align="center" onClick={() => setContextWallet("metamask")}>
-                <CardBody>
-                  <Avatar src={METAMASK_ICON}>
-                    {metamaskPaired ? (
-                      <div>
-                        <AvatarBadge boxSize="1.25em" bg="green.500" />
-                      </div>
-                    ) : (
-                      <div>
-                        <AvatarBadge boxSize="1.25em" bg="red.500" />
-                      </div>
-                    )}
-                  </Avatar>
-                </CardBody>
-                <small>MetaMask</small>
-              </Card>
+              {/*<Card align="center" onClick={() => setContextWallet("native")}>*/}
+              {/*  <CardBody>*/}
+              {/*    <Avatar src={PIONEER_ICON}>*/}
+              {/*      {nativePaired ? (*/}
+              {/*        <div>*/}
+              {/*          <AvatarBadge boxSize="1.25em" bg="green.500" />*/}
+              {/*        </div>*/}
+              {/*      ) : (*/}
+              {/*        <div>*/}
+              {/*          <AvatarBadge boxSize="1.25em" bg="red.500" />*/}
+              {/*        </div>*/}
+              {/*      )}*/}
+              {/*    </Avatar>*/}
+              {/*  </CardBody>*/}
+              {/*  <small>Pioneer</small>*/}
+              {/*</Card>*/}
+              {/*<Card align="center" onClick={() => setContextWallet("metamask")}>*/}
+              {/*  <CardBody>*/}
+              {/*    <Avatar src={METAMASK_ICON}>*/}
+              {/*      {metamaskPaired ? (*/}
+              {/*        <div>*/}
+              {/*          <AvatarBadge boxSize="1.25em" bg="green.500" />*/}
+              {/*        </div>*/}
+              {/*      ) : (*/}
+              {/*        <div>*/}
+              {/*          <AvatarBadge boxSize="1.25em" bg="red.500" />*/}
+              {/*        </div>*/}
+              {/*      )}*/}
+              {/*    </Avatar>*/}
+              {/*  </CardBody>*/}
+              {/*  <small>MetaMask</small>*/}
+              {/*</Card>*/}
               <Card align="center" onClick={() => setContextWallet("keepkey")}>
                 <CardBody>
                   <Avatar src={KEEPKEY_ICON}>

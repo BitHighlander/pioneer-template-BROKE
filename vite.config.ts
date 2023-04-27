@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import postcss from 'rollup-plugin-postcss';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 // import inject from '@rollup/plugin-inject'
@@ -16,9 +17,10 @@ export default defineConfig(({}) => {
     // vite config
     define: {
       'process.env': {},
-      global: {},
     },
-    plugins: [react()],
+    plugins: [react(),postcss({
+      // PostCSS plugins configuration
+    })],
     resolve: {
       alias: {
         lib: resolve(__dirname, "src/lib"),
@@ -26,7 +28,8 @@ export default defineConfig(({}) => {
         util: 'rollup-plugin-node-polyfills/polyfills/util',
         sys: 'util',
         events: 'rollup-plugin-node-polyfills/polyfills/events',
-        stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+        //stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+        stream: 'stream-browserify',
         path: 'rollup-plugin-node-polyfills/polyfills/path',
         querystring: 'rollup-plugin-node-polyfills/polyfills/qs',
         punycode: 'rollup-plugin-node-polyfills/polyfills/punycode',
@@ -83,6 +86,7 @@ export default defineConfig(({}) => {
             process: true,
             buffer: true
           }),
+          //NodeModulesPolyfillPlugin()
           rollupNodePolyFill()
         ],
       }

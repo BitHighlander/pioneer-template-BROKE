@@ -31,9 +31,8 @@ import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
 // import * as keplr from "@shapeshiftoss/hdwallet-keplr";
 // import * as metaMask from "@shapeshiftoss/hdwallet-metamask";
-import { useConnectWallet } from "@web3-onboard/react";
-import { NativeAdapter } from "@shapeshiftoss/hdwallet-native";
-import { entropyToMnemonic } from "bip39";
+// import { NativeAdapter } from "@shapeshiftoss/hdwallet-native";
+// import { entropyToMnemonic } from "bip39";
 import {
   createContext,
   useReducer,
@@ -154,7 +153,6 @@ export const PioneerProvider = ({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   // const [username, setUsername] = useState<string | null>(null);
   // const [context, setContext] = useState<string | null>(null);
   // const [wallets, setSetWallets] = useState([]);
@@ -170,8 +168,6 @@ export const PioneerProvider = ({
 
   const onStart = async function () {
     try {
-      if(!wallet)
-        await connect();
       // eslint-disable-next-line no-console
       console.log("onStart***** ");
       const serviceKey: string | null = localStorage.getItem("serviceKey"); // KeepKey api key
@@ -220,55 +216,55 @@ export const PioneerProvider = ({
         //   accountIdx: 0,
         // })[0];
 
-        let hashStored = localStorage.getItem("hash");
-        if (!hashStored) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          const signer = ethersProvider.getSigner()
-          let sig = await signer.signMessage(message)
-          console.log("sig: ", sig);
-          // let sig = await walletMetaMask.ethSignMessage({
-          //   addressNList: hardenedPath.concat(relPath),
-          //   message,
-          // });
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          if (sig.signature) sig = sig.signature;
-          // eslint-disable-next-line no-console
-          console.log("sig: ", sig);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          localStorage.setItem("hash", sig);
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          hashStored = sig;
-        }
-
-        const hashSplice = (str: string | any[] | null) => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          return str.slice(0, 34);
-        };
-        const hash = hashSplice(hashStored);
-
-        // eslint-disable-next-line no-console
-        console.log("hash (trimmed): ", hash);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const hashBytes = hash.replace("0x", "");
-        // eslint-disable-next-line no-console
-        console.log("hashBytes", hashBytes);
-        // eslint-disable-next-line no-console
-        console.log("hashBytes", hashBytes.length);
-        const mnemonic = entropyToMnemonic(hashBytes.toString(`hex`));
-        // eslint-disable-next-line no-console
-        console.log("mnemonic", mnemonic);
-
-      const nativeAdapter = NativeAdapter.useKeyring(keyring);
-      const walletSoftware = await nativeAdapter.pairDevice("testid");
-      await nativeAdapter.initialize();
-      // @ts-ignore
-      await walletSoftware.loadDevice({ mnemonic });
+      //   let hashStored = localStorage.getItem("hash");
+      //   if (!hashStored) {
+      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //     // @ts-ignore
+      //     const signer = ethersProvider.getSigner()
+      //     let sig = await signer.signMessage(message)
+      //     console.log("sig: ", sig);
+      //     // let sig = await walletMetaMask.ethSignMessage({
+      //     //   addressNList: hardenedPath.concat(relPath),
+      //     //   message,
+      //     // });
+      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //     // @ts-ignore
+      //     if (sig.signature) sig = sig.signature;
+      //     // eslint-disable-next-line no-console
+      //     console.log("sig: ", sig);
+      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //     // @ts-ignore
+      //     localStorage.setItem("hash", sig);
+      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //     // @ts-ignore
+      //     hashStored = sig;
+      //   }
+      //
+      //   const hashSplice = (str: string | any[] | null) => {
+      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //     // @ts-ignore
+      //     return str.slice(0, 34);
+      //   };
+      //   const hash = hashSplice(hashStored);
+      //
+      //   // eslint-disable-next-line no-console
+      //   console.log("hash (trimmed): ", hash);
+      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //   // @ts-ignore
+      //   const hashBytes = hash.replace("0x", "");
+      //   // eslint-disable-next-line no-console
+      //   console.log("hashBytes", hashBytes);
+      //   // eslint-disable-next-line no-console
+      //   console.log("hashBytes", hashBytes.length);
+      //   const mnemonic = entropyToMnemonic(hashBytes.toString(`hex`));
+      //   // eslint-disable-next-line no-console
+      //   console.log("mnemonic", mnemonic);
+      //
+      // const nativeAdapter = NativeAdapter.useKeyring(keyring);
+      // const walletSoftware = await nativeAdapter.pairDevice("testid");
+      // await nativeAdapter.initialize();
+      // // @ts-ignore
+      // await walletSoftware.loadDevice({ mnemonic });
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
