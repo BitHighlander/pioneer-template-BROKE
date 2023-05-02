@@ -131,7 +131,8 @@ const Header = () => {
     try {
       // if(!wallet)
       //   await connect();
-      
+      //set color mode dark
+      localStorage.setItem("chakra-ui-color-mode", "dark");
       // eslint-disable-next-line no-console
       
     } catch (e) {
@@ -357,22 +358,22 @@ const Header = () => {
               {/*  </CardBody>*/}
               {/*  <small>Pioneer</small>*/}
               {/*</Card>*/}
-              {/*<Card align="center" onClick={() => setContextWallet("metamask")}>*/}
-              {/*  <CardBody>*/}
-              {/*    <Avatar src={METAMASK_ICON}>*/}
-              {/*      {metamaskPaired ? (*/}
-              {/*        <div>*/}
-              {/*          <AvatarBadge boxSize="1.25em" bg="green.500" />*/}
-              {/*        </div>*/}
-              {/*      ) : (*/}
-              {/*        <div>*/}
-              {/*          <AvatarBadge boxSize="1.25em" bg="red.500" />*/}
-              {/*        </div>*/}
-              {/*      )}*/}
-              {/*    </Avatar>*/}
-              {/*  </CardBody>*/}
-              {/*  <small>MetaMask</small>*/}
-              {/*</Card>*/}
+              <Card align="center" onClick={() => setContextWallet("metamask")}>
+                <CardBody>
+                  <Avatar src={METAMASK_ICON}>
+                    {metamaskPaired ? (
+                      <div>
+                        <AvatarBadge boxSize="1.25em" bg="green.500" />
+                      </div>
+                    ) : (
+                      <div>
+                        <AvatarBadge boxSize="1.25em" bg="red.500" />
+                      </div>
+                    )}
+                  </Avatar>
+                </CardBody>
+                <small>MetaMask</small>
+              </Card>
               <Card align="center" onClick={() => setContextWallet("keepkey")}>
                 <CardBody>
                   <Avatar src={KEEPKEY_ICON}>

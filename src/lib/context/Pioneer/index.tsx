@@ -30,7 +30,7 @@
 import { SDK } from "@pioneer-sdk/sdk";
 import * as core from "@shapeshiftoss/hdwallet-core";
 // import * as keplr from "@shapeshiftoss/hdwallet-keplr";
-// import * as metaMask from "@shapeshiftoss/hdwallet-metamask";
+import * as metaMask from "@shapeshiftoss/hdwallet-metamask";
 // import { NativeAdapter } from "@shapeshiftoss/hdwallet-native";
 // import { entropyToMnemonic } from "bip39";
 import {
@@ -198,82 +198,26 @@ export const PioneerProvider = ({
         localStorage.setItem("serviceKey", config.apiKey);
       }
       const keyring = new core.Keyring();
-
-      // const walletMetaMask = await metaMaskAdapter.pairDevice();
-      // if (walletMetaMask) {
+      const metaMaskAdapter = metaMask.MetaMaskAdapter.useKeyring(keyring);
+      const walletMetaMask = await metaMaskAdapter.pairDevice();
+      if (walletMetaMask) {
         // pair metamask
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        // await walletMetaMask.initialize();
-        // // eslint-disable-next-line no-console
-        // console.log("walletMetaMask: ", walletMetaMask);
+        await walletMetaMask.initialize();
+        // eslint-disable-next-line no-console
+        console.log("walletMetaMask: ", walletMetaMask);
+        console.log("ethAddress: ", walletMetaMask.ethAddress);
+      }
 
-        //use metamask to sign message
-        const message = "Pioneers:0xD9B4BEF9:gen1";
-        //
-        // const { hardenedPath, relPath } = walletMetaMask.ethGetAccountPaths({
-        //   coin: "Ethereum",
-        //   accountIdx: 0,
-        // })[0];
-
-      //   let hashStored = localStorage.getItem("hash");
-      //   if (!hashStored) {
-      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //     // @ts-ignore
-      //     const signer = ethersProvider.getSigner()
-      //     let sig = await signer.signMessage(message)
-      //     console.log("sig: ", sig);
-      //     // let sig = await walletMetaMask.ethSignMessage({
-      //     //   addressNList: hardenedPath.concat(relPath),
-      //     //   message,
-      //     // });
-      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //     // @ts-ignore
-      //     if (sig.signature) sig = sig.signature;
-      //     // eslint-disable-next-line no-console
-      //     console.log("sig: ", sig);
-      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //     // @ts-ignore
-      //     localStorage.setItem("hash", sig);
-      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //     // @ts-ignore
-      //     hashStored = sig;
-      //   }
-      //
-      //   const hashSplice = (str: string | any[] | null) => {
-      //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //     // @ts-ignore
-      //     return str.slice(0, 34);
-      //   };
-      //   const hash = hashSplice(hashStored);
-      //
-      //   // eslint-disable-next-line no-console
-      //   console.log("hash (trimmed): ", hash);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      // const walletInit = await KkRestAdapter.useKeyring(keyring).pairDevice(
       //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //   // @ts-ignore
-      //   const hashBytes = hash.replace("0x", "");
-      //   // eslint-disable-next-line no-console
-      //   console.log("hashBytes", hashBytes);
-      //   // eslint-disable-next-line no-console
-      //   console.log("hashBytes", hashBytes.length);
-      //   const mnemonic = entropyToMnemonic(hashBytes.toString(`hex`));
-      //   // eslint-disable-next-line no-console
-      //   console.log("mnemonic", mnemonic);
-      //
-      // const nativeAdapter = NativeAdapter.useKeyring(keyring);
-      // const walletSoftware = await nativeAdapter.pairDevice("testid");
-      // await nativeAdapter.initialize();
-      // // @ts-ignore
-      // await walletSoftware.loadDevice({ mnemonic });
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        // const walletInit = await KkRestAdapter.useKeyring(keyring).pairDevice(
-        //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //   // @ts-ignore
-        //   sdk
-        // );
+      //   sdk
+      // );
 
       if (!queryKey) {
         queryKey = `key:${uuidv4()}`;
@@ -298,10 +242,10 @@ export const PioneerProvider = ({
 
       // add custom paths
       const paths: any = [];
-      const spec = "https://pioneers.dev/spec/swagger.json";
-      const wss = "wss://pioneers.dev";
-      // const spec = "http://127.0.0.1:9001/spec/swagger.json";
-      // const wss = "ws://127.0.0.1:9001";
+      // const spec = "https://pioneers.dev/spec/swagger.json";
+      // const wss = "wss://pioneers.dev";
+      const spec = "http://127.0.0.1:9001/spec/swagger.json";
+      const wss = "ws://127.0.0.1:9001";
       const configPioneer: any = {
         blockchains,
         username,
@@ -311,34 +255,37 @@ export const PioneerProvider = ({
         paths,
       };
       const appInit = new SDK(spec, configPioneer);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const api = await appInit.init(walletMetaMask);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      dispatch({ type: WalletActions.SET_API, payload: api });
+      const user = await api.User();
+      // eslint-disable-next-line no-console
+      console.log("user: ", user.data);
+      
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      dispatch({ type: WalletActions.SET_USER, payload: user.data });
+      // setUsername(localStorage.getItem("username"));
+
+      // eslint-disable-next-line no-console
+      console.log("user.data.context: ", user.data.context);
+      setContext(user.data.context);
+      setBlockchainContext(user.data.blockchainContext);
+      setAssetContext(user.data.assetContext);
+      
+      // // get walletSoftware
+      // const walletSoftware = await nativeAdapter.pairDevice("testid");
+      // await nativeAdapter.initialize();
       // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // // @ts-ignore
-      // const api = await appInit.init(walletMetaMask);
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // @ts-ignore
-      // dispatch({ type: WalletActions.SET_API, payload: api });
-      // const user = await api.User();
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // @ts-ignore
-      // dispatch({ type: WalletActions.SET_USER, payload: user.data });
-      // // setUsername(localStorage.getItem("username"));
-      // // eslint-disable-next-line no-console
-      // console.log("user: ", user.data);
-      // // eslint-disable-next-line no-console
-      // console.log("user.data.context: ", user.data.context);
-      // setContext(user.data.context);
-      // setBlockchainContext(user.data.blockchainContext);
-      // setAssetContext(user.data.assetContext);
-      // // // get walletSoftware
-      // // const walletSoftware = await nativeAdapter.pairDevice("testid");
-      // // await nativeAdapter.initialize();
-      // // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // // @ts-ignore
-      // // walletSoftware.loadDevice({ mnemonic });
-      // //
-      // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // // @ts-ignore
-      // // eslint-disable-next-line react-hooks/rules-of-hooks
+      // walletSoftware.loadDevice({ mnemonic });
+      //
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       // const walletKeepKey = await KkRestAdapter.useKeyring(
       //   keyring
       // ).pairDevice(sdkKeepKey);
