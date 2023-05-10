@@ -59,6 +59,8 @@ export enum WalletActions {
   // SET_WALLET_DESCRIPTIONS = "SET_WALLET_DESCRIPTIONS",
   // INIT_PIONEER = "INIT_PIONEER",
   SET_API = "SET_API",
+  SET_APP = "SET_APP",
+  SET_WALLET = "SET_WALLET",
   RESET_STATE = "RESET_STATE",
 }
 
@@ -76,6 +78,8 @@ export interface InitialState {
   // totalValueUsd: number;
   // app: any;
   user: any;
+  wallet: any;
+  app: any;
   api: any;
 }
 
@@ -93,6 +97,8 @@ const initialState: InitialState = {
   // totalValueUsd: 0,
   // app: {} as any,
   user: null,
+  wallet: null,
+  app: null,
   api: null,
 };
 
@@ -102,20 +108,23 @@ export interface IPioneerContext {
   context: string | null;
   status: string | null;
   // totalValueUsd: number | null;
-  // app: any;
   user: any;
+  wallet: any;
+  app: any;
   api: any;
 }
 
 export type ActionTypes =
-  | { type: WalletActions.SET_STATUS; payload: any }
-  | { type: WalletActions.SET_USERNAME; payload: string }
-  | { type: WalletActions.SET_API; payload: any }
-  | { type: WalletActions.SET_USER; payload: any }
-  | { type: WalletActions.SET_CONTEXT; payload: any }
-  // | { type: WalletActions.SET_WALLET_DESCRIPTIONS; payload: any }
-  // | { type: WalletActions.INIT_PIONEER; payload: boolean }
-  | { type: WalletActions.RESET_STATE };
+    | { type: WalletActions.SET_STATUS; payload: any }
+    | { type: WalletActions.SET_USERNAME; payload: string }
+    | { type: WalletActions.SET_WALLET; payload: any }
+    | { type: WalletActions.SET_APP; payload: any }
+    | { type: WalletActions.SET_API; payload: any }
+    | { type: WalletActions.SET_USER; payload: any }
+    | { type: WalletActions.SET_CONTEXT; payload: any }
+    // | { type: WalletActions.SET_WALLET_DESCRIPTIONS; payload: any }
+    // | { type: WalletActions.INIT_PIONEER; payload: boolean }
+    | { type: WalletActions.RESET_STATE };
 
 const reducer = (state: InitialState, action: ActionTypes) => {
   switch (action.type) {
@@ -125,6 +134,10 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       return { ...state, context: action.payload };
     case WalletActions.SET_USERNAME:
       return { ...state, username: action.payload };
+    case WalletActions.SET_WALLET:
+      return { ...state, wallet: action.payload };
+    case WalletActions.SET_APP:
+      return { ...state, app: action.payload };
     case WalletActions.SET_API:
       return { ...state, api: action.payload };
     case WalletActions.SET_USER:
@@ -146,8 +159,8 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 const PioneerContext = createContext(initialState);
 
 export const PioneerProvider = ({
-  children,
-}: {
+                                  children,
+                                }: {
   children: React.ReactNode;
 }): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -158,7 +171,7 @@ export const PioneerProvider = ({
   // const [wallets, setSetWallets] = useState([]);
   const [context, setContext] = useState<string | null>(null);
   const [blockchainContext, setBlockchainContext] = useState<string | null>(
-    null
+      null
   );
   const [assetContext, setAssetContext] = useState<string | null>(null);
 
@@ -260,11 +273,17 @@ export const PioneerProvider = ({
       const api = await appInit.init(walletMetaMask);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
+      dispatch({ type: WalletActions.SET_WALLET, payload: walletMetaMask });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      dispatch({ type: WalletActions.SET_APP, payload: appInit });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       dispatch({ type: WalletActions.SET_API, payload: api });
       const user = await api.User();
       // eslint-disable-next-line no-console
       console.log("user: ", user.data);
-      
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       dispatch({ type: WalletActions.SET_USER, payload: user.data });
@@ -275,7 +294,7 @@ export const PioneerProvider = ({
       setContext(user.data.context);
       setBlockchainContext(user.data.blockchainContext);
       setAssetContext(user.data.assetContext);
-      
+
       // // get walletSoftware
       // const walletSoftware = await nativeAdapter.pairDevice("testid");
       // await nativeAdapter.initialize();
@@ -319,9 +338,9 @@ export const PioneerProvider = ({
   const value: any = useMemo(() => ({ state, dispatch }), [state]);
 
   return (
-    <PioneerContext.Provider value={value}>{children}</PioneerContext.Provider>
+      <PioneerContext.Provider value={value}>{children}</PioneerContext.Provider>
   );
 };
 
 export const usePioneer = (): any =>
-  useContext(PioneerContext as unknown as React.Context<IPioneerContext>);
+    useContext(PioneerContext as unknown as React.Context<IPioneerContext>);
