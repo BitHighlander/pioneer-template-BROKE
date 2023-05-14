@@ -85,8 +85,6 @@ const Header = () => {
 
   const navigate = useNavigate();
   const handleToHome = () => navigate("/");
-  const handleToDashboard = () => navigate("/dashboard");
-  const handleToSwap = () => navigate("/swap");
 
   const setContextWallet = async function (wallet: string) {
     try {
@@ -283,20 +281,6 @@ const Header = () => {
         <Link onClick={handleToHome}>
           <Box>Pioneer Template</Box>
         </Link>
-        <HStack spacing={4} display={{ base: "none", md: "flex" }}>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link onClick={handleToDashboard}>
-            <Text color="gray.500" fontSize="sm">
-              Dashboard
-            </Text>
-          </Link>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link onClick={handleToSwap}>
-            <Text color="gray.500" fontSize="sm">
-              Swap
-            </Text>
-          </Link>
-        </HStack>
       </HStack>
       <Spacer />
       <Menu>
@@ -342,22 +326,6 @@ const Header = () => {
           {/* <MenuDivider /> */}
           <MenuItem>
             <SimpleGrid columns={3} rows={1}>
-              {/*<Card align="center" onClick={() => setContextWallet("native")}>*/}
-              {/*  <CardBody>*/}
-              {/*    <Avatar src={PIONEER_ICON}>*/}
-              {/*      {nativePaired ? (*/}
-              {/*        <div>*/}
-              {/*          <AvatarBadge boxSize="1.25em" bg="green.500" />*/}
-              {/*        </div>*/}
-              {/*      ) : (*/}
-              {/*        <div>*/}
-              {/*          <AvatarBadge boxSize="1.25em" bg="red.500" />*/}
-              {/*        </div>*/}
-              {/*      )}*/}
-              {/*    </Avatar>*/}
-              {/*  </CardBody>*/}
-              {/*  <small>Pioneer</small>*/}
-              {/*</Card>*/}
               <Card align="center" onClick={() => setContextWallet("metamask")}>
                 <CardBody>
                   <Avatar src={METAMASK_ICON}>
@@ -414,9 +382,9 @@ const Header = () => {
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
-          {/* <MenuItem>context: {user.context || "not Paired"}</MenuItem> */}
-          {/* <MenuDivider /> */}
-          {/* <MenuItem>Total Value(usd): {user.totalValueUsd}</MenuItem> */}
+           {/*<MenuItem>context: {user.context || "not Paired"}</MenuItem>*/}
+           <MenuDivider />
+           {/*<MenuItem>Total Value(usd): {user.totalValueUsd}</MenuItem>*/}
         </MenuList>
       </Menu>
     </Flex>
