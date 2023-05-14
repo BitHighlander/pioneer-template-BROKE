@@ -2574,7 +2574,7 @@
     stable "^0.1.8"
     typescript "4.6.4"
 
-"@pioneer-sdk/sdk@1.1.73":
+"@pioneer-sdk/sdk@^1.1.73":
   version "1.1.73"
   resolved "https://registry.yarnpkg.com/@pioneer-sdk/sdk/-/sdk-1.1.73.tgz#6db05e49738204be0a99c410297bff6e37a9468a"
   integrity sha512-JarZ9uWLTy8BD4kNSuRTS2YcuU7QoZdn139VXu2j/mUNVmDM9KzTuc7yqDa4+TlrqGiUUaBBf8N1ZSZudjUcCg==
